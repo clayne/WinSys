@@ -21,10 +21,6 @@
 	FIELD_OFFSET( struct { char x; t test; }, test )
 #endif
 
-#ifdef EnumProcesses
-#undef EnumProcesses
-#endif
-
 namespace WinSys {
 	template<typename TProcessInfo = ProcessInfo, typename TThreadInfo = ThreadInfo>
 	class ProcessManager {
@@ -34,11 +30,11 @@ namespace WinSys {
 		ProcessManager(const ProcessManager&) = delete;
 		ProcessManager& operator=(const ProcessManager&) = delete;
 
-		uint32_t EnumProcesses() {
-			return EnumProcesses(false, 0);
+		uint32_t Update() {
+			return Update(false, 0);
 		}
-		uint32_t EnumProcessesAndThreads(uint32_t pid = 0) {
-			return EnumProcesses(true, pid);
+		uint32_t UpdateWithThreads(uint32_t pid = 0) {
+			return Update(true, pid);
 		}
 
 		[[nodiscard]] std::vector<std::shared_ptr<TProcessInfo>> const& GetTerminatedProcesses() const {
@@ -62,7 +58,7 @@ namespace WinSys {
 			}
 		}
 
-		uint32_t EnumProcesses(bool includeThreads, uint32_t pid) {
+		uint32_t Update(bool includeThreads, uint32_t pid) {
 			std::vector<std::shared_ptr<TProcessInfo>> processes;
 			processes.reserve(m_Processes.empty() ? 512 : m_Processes.size() + 10);
 			ProcessMap processesByKey;
@@ -218,7 +214,7 @@ namespace WinSys {
 
 		[[nodiscard]] std::vector<std::pair<std::shared_ptr<TProcessInfo>, int>> BuildProcessTree() {
 			std::vector<std::pair<std::shared_ptr<TProcessInfo>, int>> tree;
-			auto count = EnumProcesses(false, 0);
+			auto count = Update(false, 0);
 			tree.reserve(count);
 
 			auto map = m_ProcessesById;

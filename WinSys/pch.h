@@ -12,7 +12,9 @@
 #define PHNT_VERSION PHNT_THRESHOLD
 #define _HAS_EXCEPTIONS 0
 
-#include <Windows.h>
+#include <phnt_windows.h>
+#include <phnt.h>
+
 #include <ShellScalingApi.h>
 #include <strsafe.h>
 #include <string>
@@ -29,7 +31,5 @@
 #include <sddl.h>
 #include <wil/resource.h>
 #include <wil/com.h>
-#include <phnt_windows.h>
-#include <phnt.h>
 
 #endif //PCH_H

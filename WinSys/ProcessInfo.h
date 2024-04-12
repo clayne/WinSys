@@ -6,9 +6,12 @@
 #include "Keys.h"
 
 namespace WinSys {
+	using namespace std;
+
 	struct ThreadInfo;
 
 	struct ProcessInfo {
+
 		const SYSTEM_PROCESS_INFORMATION* NativeInfo{ nullptr };
 		const SYSTEM_PROCESS_INFORMATION_EXTENSION* ExtendedInfo{ nullptr };
 		PCWSTR m_PackageFullName{ nullptr };
@@ -16,10 +19,10 @@ namespace WinSys {
 		template<typename TProcessInfo, typename TThreadInfo>
 		friend class ProcessManager;
 
-		const std::wstring& GetImageName() const { return m_ProcessName; }
-		const std::wstring& GetNativeImagePath() const { return m_NativeImagePath; }
-		const std::vector<std::shared_ptr<ThreadInfo>>& GetThreads() const;
-		const std::wstring& GetUserName() const;
+		const wstring& GetImageName() const { return m_ProcessName; }
+		const wstring& GetNativeImagePath() const { return m_NativeImagePath; }
+		const vector<shared_ptr<ThreadInfo>>& GetThreads() const;
+		const wstring& GetUserName() const;
 
 		int BasePriority;
 		uint32_t Id;
@@ -29,14 +32,14 @@ namespace WinSys {
 
 		ProcessOrThreadKey Key;
 
-		void AddThread(std::shared_ptr<ThreadInfo> thread);
+		void AddThread(shared_ptr<ThreadInfo> thread);
 		void ClearThreads();
 
 	private:
-		std::wstring m_ProcessName;
-		std::wstring m_NativeImagePath;
+		wstring m_ProcessName;
+		wstring m_NativeImagePath;
 		mutable std::wstring m_UserName;
-		std::vector<std::shared_ptr<ThreadInfo>> m_threads;
+		vector<shared_ptr<ThreadInfo>> m_threads;
 	};
 }
 

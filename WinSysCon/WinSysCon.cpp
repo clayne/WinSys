@@ -14,7 +14,7 @@ void PerfTest(bool WithThreads) {
 	::QueryPerformanceFrequency(&freq);
 	for (int i = 0; i < 20; i++) {
 		::QueryPerformanceCounter(&start);
-		auto count = pm.EnumProcesses(WithThreads, 0);
+		auto count = pm.Update(WithThreads, 0);
 		::QueryPerformanceCounter(&end);
 		auto diff = end.QuadPart - start.QuadPart;
 		printf("time: %lld (%lld msec)\n", diff, diff * 1000 / freq.QuadPart);
@@ -25,7 +25,7 @@ void PerfTest(bool WithThreads) {
 
 int main() {
 	ProcessManager pm;
-	auto count = pm.EnumProcessesAndThreads();
+	auto count = pm.UpdateWithThreads();
 	printf("%u processes found\n", count);
 
 	for (auto& p : pm.GetProcesses()) {
